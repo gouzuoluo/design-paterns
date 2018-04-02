@@ -12,6 +12,8 @@ type DisplayElement interface {
 	Display()
 }
 
+/*----------------------------------------------------------------------------------------------------------------*/
+
 //布告板1
 type CurrentConditionsDisplay struct {
 	temperature float32

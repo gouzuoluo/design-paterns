@@ -12,7 +12,7 @@ type Duck interface {
 }
 
 type BaseDuck struct {
-	flyBehavior   FlyBehavior
+	flyBehavior   FlyBehavior //将变化的行为封装（策略模式的精华）
 	quackBehavior QuackBehavior
 }
 
@@ -28,9 +28,6 @@ func (this *BaseDuck) Swim() {
 	fmt.Println("All ducks float,even decoys!")
 }
 
-func (this *BaseDuck) Display() {
-}
-
 func (this *BaseDuck) SetFlyBehavior(fb FlyBehavior) {
 	this.flyBehavior = fb
 }
@@ -39,35 +36,37 @@ func (this *BaseDuck) SetQuackBehavior(qb QuackBehavior) {
 	this.quackBehavior = qb
 }
 
-/*------------------------------------------------------------------------------*/
-//绿头鸭
+//未实现Display方法
+
+/*---------------------------------------------------------------------------------------------------------------*/
+//1绿头鸭
 type MallardDuck struct {
 	BaseDuck
 }
 
 func NewMallardDuck() *MallardDuck {
-	md := new(MallardDuck)
-	md.quackBehavior = new(Quack)
-	md.flyBehavior = new(FlyWithWings)
-	return md
+	this := new(MallardDuck)
+	this.quackBehavior = new(Quack)
+	this.flyBehavior = new(FlyWithWings)
+	return this
 }
 
-func (this *MallardDuck) Display() {
+func (_ *MallardDuck) Display() {
 	fmt.Println("I'm a real Mallard duck")
 }
 
-//模型鸭
+//2模型鸭
 type ModelDuck struct {
 	BaseDuck
 }
 
 func NewModelDuck() *ModelDuck {
-	md := new(ModelDuck)
-	md.quackBehavior = new(Quack)
-	md.flyBehavior = new(FlyNoWay)
-	return md
+	this := new(ModelDuck)
+	this.quackBehavior = new(Quack)
+	this.flyBehavior = new(FlyNoWay)
+	return this
 }
 
-func (this *ModelDuck) Display() {
+func (_ *ModelDuck) Display() {
 	fmt.Println("I'm a model duck")
 }
