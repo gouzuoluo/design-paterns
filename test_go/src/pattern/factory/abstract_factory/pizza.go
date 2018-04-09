@@ -23,7 +23,7 @@ type basePizza struct {
 	cheese            Cheese                 //奶酪
 	pepperoni         Pepperoni              //意大利香肠
 	clam              Clams                  //蛤蜊
-	ingredientFactory PizzaIngredientFactory //披萨工厂
+	ingredientFactory PizzaIngredientFactory //披萨原料工厂
 }
 
 //未实现Prepare方法,由具体的披萨子类实现

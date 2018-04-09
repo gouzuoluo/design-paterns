@@ -2,32 +2,37 @@ package main
 
 import "fmt"
 
-type Printer interface {
-	Print()
+type A interface {
+	f1()
+	f2()
 }
 
-type CanonPrinter struct {
-	PrintName string
+type bA struct {
 }
 
-func (p CanonPrinter) Print() {
-	fmt.Println("CanonPrinte")
+func (this *bA)f1()  {
+	fmt.Println("bA----f1")
+	this.f2()
 }
 
-type PrintWorker struct {
-	Printer
-	name string
-	age  int
+func (this *bA)f2()  {
+	fmt.Println("bA-----f2")
 }
 
-// 如果没有下面实现，则
-//func (pw PrintWorker) Print() {
-//	fmt.Println("PrintWorker")
-//	pw.Printer.Print() // 这里 pw 首先引用内部嵌入Printer接口的实例，然后调用Printer 接口实例的Print()方法
-//}
+/*--------------------------------------------------------------------------------*/
+//继承bA
+type A1 struct {
+	bA
+}
+//重写f2
+func (this *A1)f2()  {
+	fmt.Println("A1------f2")
+	this.bA.f2()
+}
 
 func main() {
-	canon := CanonPrinter{"canoprint_num_1"}
-	p := PrintWorker{Printer: canon, name: "ansendong", age: 34}
-	p.Print() //如果没有上述红色部分的实现，则这里只调用CanonPrinter实现的Print()方法。
+	var a A = new(A1)
+
+	a.f1()
+	a.f2()
 }

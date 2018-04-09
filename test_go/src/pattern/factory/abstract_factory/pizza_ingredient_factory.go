@@ -1,6 +1,6 @@
 package abstract_factory
 
-
+//原料工厂接口
 type PizzaIngredientFactory interface {
 	CreateDough() Dough         //创建面团
 	CreateSauce() Sauce         //创建酱油
@@ -12,3 +12,59 @@ type PizzaIngredientFactory interface {
 
 /*------------------------------------------------------------------------------------------------------------------*/
 //1.纽约原料工厂
+type NYPizzaIngredientFactory struct {
+}
+
+func (this *NYPizzaIngredientFactory) CreateDough() Dough {
+	return new(ThinCrustDough)
+}
+
+func (this *NYPizzaIngredientFactory) CreateSauce() Sauce {
+	return new(MarinaraSauce)
+}
+
+func (this *NYPizzaIngredientFactory) CreateCheese() Cheese {
+	return new(ReggianoCheese)
+}
+
+func (this *NYPizzaIngredientFactory) CreateVeggies() []Veggies {
+	var veggige []Veggies = []Veggies{new(Garlic), new(Onion), new(Mushroom)}
+	return veggige
+}
+
+func (this *NYPizzaIngredientFactory) CreatePepperoni() Pepperoni {
+	return new(SlicedPepperoni)
+}
+
+func (this *NYPizzaIngredientFactory) CreateClam() Clams {
+	return new(FreshClams)
+}
+
+//2.芝加哥原料工厂
+type ChicagoPizzaIngredientFactory struct {
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreateDough() Dough {
+	return new(ThickCrustDough)
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreateSauce() Sauce {
+	return new(PlumTomatoSauce)
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreateCheese() Cheese {
+	return new(MozzarellaCheese)
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreateVeggies() []Veggies {
+	var veggies []Veggies = []Veggies{new(BlackOlives), new(Spinach), new(Eggplant)}
+	return veggies
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreatePepperoni() Pepperoni {
+	return new(SlicedPepperoni)
+}
+
+func (this *ChicagoPizzaIngredientFactory) CreateClam() Clams {
+	return new(FrozenClams)
+}

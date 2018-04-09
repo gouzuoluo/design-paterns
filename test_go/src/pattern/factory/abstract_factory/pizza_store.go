@@ -38,7 +38,7 @@ func NewNYPizzaStore() PizzaStore {
 
 func (this *NYPizzaStore) CreatePizza(tp string) Pizza {
 	var pizza Pizza = nil
-	var ingredientFactory PizzaIngredientFactory = NewNYPizzaIngredientFactory()
+	var ingredientFactory PizzaIngredientFactory = new(NYPizzaIngredientFactory)
 	switch tp {
 	case "cheese":
 		pizza = NewCheesePizza(ingredientFactory)
@@ -58,3 +58,33 @@ func (this *NYPizzaStore) CreatePizza(tp string) Pizza {
 }
 
 //2.芝加哥披萨店
+type ChicagoPizzaStore struct {
+	basePizzaStore
+}
+
+func NewChicagoPizzaStore() PizzaStore {
+	this := new(ChicagoPizzaStore)
+	this.PizzaStore = this
+	return this
+}
+
+func (this *ChicagoPizzaStore) CreatePizza(tp string) Pizza {
+	var pizza Pizza = nil
+	var ingredientFactory PizzaIngredientFactory = new(ChicagoPizzaIngredientFactory)
+	switch tp {
+	case "cheese":
+		pizza = NewCheesePizza(ingredientFactory)
+		pizza.SetName("Chicago Style Cheese Pizza")
+	case "veggies":
+		pizza = NewVeggiePizza(ingredientFactory)
+		pizza.SetName("Chicago Style Veggie Pizza")
+	case "clam":
+		pizza = NewClamPizza(ingredientFactory)
+		pizza.SetName("Chicago Style Clam Pizza")
+	case "pepperoni":
+		pizza = NewPepperoniPizza(ingredientFactory)
+		pizza.SetName("Chicago Style Pepperoni Pizza")
+	}
+
+	return pizza
+}
