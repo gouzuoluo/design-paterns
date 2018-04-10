@@ -1,5 +1,9 @@
 package abstract_factory
 
+/*
+*   披萨原料工厂
+*/
+
 //原料工厂接口
 type PizzaIngredientFactory interface {
 	CreateDough() Dough         //创建面团

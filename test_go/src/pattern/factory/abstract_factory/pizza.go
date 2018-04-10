@@ -1,5 +1,9 @@
 package abstract_factory
 
+/*
+*  披萨
+*/
+
 import (
 	"fmt"
 	"bytes"

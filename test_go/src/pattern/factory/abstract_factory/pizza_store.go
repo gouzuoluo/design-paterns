@@ -1,5 +1,9 @@
 package abstract_factory
 
+/*
+*  披萨店
+*/
+
 import "fmt"
 
 type PizzaStore interface {
@@ -17,6 +21,7 @@ type basePizzaStore struct {
 func (this *basePizzaStore) OrderPizza(tp string) Pizza {
 	pizza := this.PizzaStore.CreatePizza(tp)
 	fmt.Println("--- Making a ", pizza.GetName(), " ---")
+
 	pizza.Prepare()
 	pizza.Bake()
 	pizza.Cut()

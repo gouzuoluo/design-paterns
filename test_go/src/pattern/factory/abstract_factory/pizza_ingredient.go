@@ -1,5 +1,10 @@
 package abstract_factory
 
+/*
+* 披萨原料
+*/
+
+
 //生面团
 type Dough interface {
 	String() string
