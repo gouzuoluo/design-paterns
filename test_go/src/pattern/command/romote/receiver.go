@@ -160,9 +160,10 @@ func (this *GarageDoor) LightOff() {
 
 //6.吊扇
 const (
-	HIGH   int = 2
-	MEDIUM int = 1
-	LOW    int = 0
+	HIGH   int = 3
+	MEDIUM int = 2
+	LOW    int = 1
+	OFF    int = 0
 )
 
 type CeilingFan struct {
@@ -192,7 +193,7 @@ func (this *CeilingFan) Low() {
 }
 
 func (this *CeilingFan) Off() {
-	this.level = 0
+	this.level = OFF
 	fmt.Println(this.location + " ceiling fan is off")
 }
 
