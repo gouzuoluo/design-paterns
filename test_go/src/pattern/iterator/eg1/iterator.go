@@ -1,4 +1,4 @@
-package example1
+package eg1
 
 import "container/list"
 

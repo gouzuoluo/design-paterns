@@ -1,4 +1,4 @@
-package example2
+package eg1
 
 import (
 	"container/list"
@@ -108,7 +108,7 @@ func (this *DinerMenu)GetMenuItems() []*MenuItem {
 }
 
 //实现Menu接口的CreateIterator方法
-func (this *DinerMenu)CreateIterator() Iterator {
+func (this *DinerMenu)CreateIterator()Iterator  {
 	return NewDinerMenuIterator(this.menuItems)
 	// To test Alternating menu items, comment out above line,
 	// and uncomment the line below.
@@ -116,42 +116,3 @@ func (this *DinerMenu)CreateIterator() Iterator {
 }
 
 // other menu methods here
-
-
-//3.咖啡馆菜单(晚餐菜单)
-type CafeMenu struct {
-	menuItems map[string]*MenuItem
-}
-
-func NewCafeMenu() *CafeMenu {
-	this := new(CafeMenu)
-	this.menuItems = make(map[string]*MenuItem, 10)
-	this.init()
-	return this
-}
-
-func (this *CafeMenu)init() {
-	this.addItem("Veggie Burger and Air Fries",
-		"Veggie burger on a whole wheat bun, lettuce, tomato, and fries",
-		true, 3.99)
-	this.addItem("Soup of the day",
-		"A cup of the soup of the day, with a side salad",
-		false, 3.69)
-	this.addItem("Burrito",
-		"A large burrito, with whole pinto beans, salsa, guacamole",
-		true, 4.29)
-}
-
-func (this *CafeMenu)addItem(name, description string, vegetarian bool, price float64) {
-	menuItem := NewMenuItem(name, description, vegetarian, price)
-	this.menuItems[menuItem.GetName()] = menuItem
-}
-
-func (this *CafeMenu)GetItems() map[string]*MenuItem {
-	return this.menuItems
-}
-
-//实现Menu接口的CreateIterator方法
-func (this *CafeMenu)CreateIterator() Iterator {
-	return NewCafeMenuIterator(this.menuItems)
-}
