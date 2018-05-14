@@ -109,52 +109,6 @@ func (this *MenuItem)CreateIterator() Iterator {
 	return this.iterator
 }
 
-/*---------------------------------------------*/
-//菜单集合
-type MenuGather struct {
-	iterator       Iterator
-	menuComponents []MenuComponent
-}
-
-func NewMenuGather() *MenuGather {
-	this := new(MenuGather)
-	this.menuComponents = make([]MenuComponent, 0, 10)
-	return this
-}
-
-func (this *MenuGather)Add(menuComponent MenuComponent) {
-	for _, v := range this.menuComponents {
-		if v == menuComponent {
-			return
-		}
-	}
-	this.menuComponents = append(this.menuComponents, menuComponent)
-}
-
-func (this *MenuGather)Remove(menuComponent MenuComponent) {
-	for i, v := range this.menuComponents {
-		if v == menuComponent {
-			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i + 1:]...)
-			return
-		}
-	}
-}
-
-func (this *MenuGather)Get(i int) MenuComponent {
-	if len(this.menuComponents) > i {
-		return this.menuComponents[i]
-	} else {
-		return nil
-	}
-}
-
-func (this *MenuGather)Iterator() Iterator {
-	if this.iterator == nil {
-		this.iterator = NewMenuGatherIterator(this.menuComponents)
-	}
-	return this.iterator
-}
-
 /*
 * 2.菜单(继承菜单组件类)——组合
 */
@@ -219,6 +173,52 @@ func (this *Menu)Print() {
 func (this *Menu)CreateIterator() Iterator {
 	if this.iterator == nil {
 		this.iterator = NewCompositeIterator(this.menuGather.Iterator())
+	}
+	return this.iterator
+}
+
+/*---------------------------------------------*/
+//菜单集合
+type MenuGather struct {
+	iterator       Iterator
+	menuComponents []MenuComponent
+}
+
+func NewMenuGather() *MenuGather {
+	this := new(MenuGather)
+	this.menuComponents = make([]MenuComponent, 0, 10)
+	return this
+}
+
+func (this *MenuGather)Add(menuComponent MenuComponent) {
+	for _, v := range this.menuComponents {
+		if v == menuComponent {
+			return
+		}
+	}
+	this.menuComponents = append(this.menuComponents, menuComponent)
+}
+
+func (this *MenuGather)Remove(menuComponent MenuComponent) {
+	for i, v := range this.menuComponents {
+		if v == menuComponent {
+			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i + 1:]...)
+			return
+		}
+	}
+}
+
+func (this *MenuGather)Get(i int) MenuComponent {
+	if len(this.menuComponents) > i {
+		return this.menuComponents[i]
+	} else {
+		return nil
+	}
+}
+
+func (this *MenuGather)Iterator() Iterator {
+	if this.iterator == nil {
+		this.iterator = NewMenuGatherIterator(this.menuComponents)
 	}
 	return this.iterator
 }
