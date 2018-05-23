@@ -6,8 +6,8 @@ import (
 
 //迭代器接口
 type Iterator interface {
-	HasNext() bool              //是否还有下一个菜单项
-	Next() MenuComponent        //获取下一个菜单组件
+	HasNext() bool       //是否还有下一个菜单项
+	Next() MenuComponent //获取下一个菜单组件
 }
 
 /*====================================================================================================================*/
@@ -22,11 +22,11 @@ func NewNilIterator() Iterator {
 	return this
 }
 
-func (this *NilIterator)Next() MenuComponent {
+func (this *NilIterator) Next() MenuComponent {
 	return nil
 }
 
-func (this *NilIterator)HasNext() bool {
+func (this *NilIterator) HasNext() bool {
 	return false
 }
 
@@ -45,7 +45,7 @@ func NewMenuGatherIterator(menuComponents []MenuComponent) Iterator {
 	return this
 }
 
-func (this *MenuGatherIterator)Next() MenuComponent {
+func (this *MenuGatherIterator) Next() MenuComponent {
 	if this.HasNext() {
 		menuComponent := this.menuComponents[this.position]
 		this.position += 1
@@ -55,7 +55,7 @@ func (this *MenuGatherIterator)Next() MenuComponent {
 	}
 }
 
-func (this *MenuGatherIterator)HasNext() bool {
+func (this *MenuGatherIterator) HasNext() bool {
 	if len(this.menuComponents) > this.position {
 		return true
 	} else {
@@ -77,7 +77,7 @@ func NewCompositeIterator(iterator Iterator) Iterator {
 	return this
 }
 
-func (this *CompositeIterator)Next() MenuComponent {
+func (this *CompositeIterator) Next() MenuComponent {
 	if this.HasNext() {
 		iterator := this.stack.Top().(Iterator)
 		component := iterator.Next()
@@ -88,7 +88,8 @@ func (this *CompositeIterator)Next() MenuComponent {
 	}
 }
 
-func (this *CompositeIterator)HasNext() bool {
+//TODO:递归写法有误，待修正
+func (this *CompositeIterator) HasNext() bool {
 	if this.stack.Empty() {
 		return false
 	} else {

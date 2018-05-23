@@ -12,12 +12,12 @@ func NewStack() *Stack {
 	return this
 }
 
-func (this *Stack)Size() int {
+func (this *Stack) Size() int {
 	return len(this.Element)
 }
 
 //是否为空
-func (this *Stack)Empty() bool {
+func (this *Stack) Empty() bool {
 	if this.Element == nil || this.Size() == 0 {
 		return true
 	} else {
@@ -26,31 +26,31 @@ func (this *Stack)Empty() bool {
 }
 
 //压栈（添加元素）
-func (this *Stack)Push(value ...interface{}) {
+func (this *Stack) Push(value ...interface{}) {
 	this.Element = append(this.Element, value...)
 }
 
 //返回栈顶元素
-func (this *Stack)Top() interface{} {
+func (this *Stack) Top() interface{} {
 	if this.Size() > 0 {
-		return this.Element[this.Size() - 1]
+		return this.Element[this.Size()-1]
 	}
-	return nil//read empty stack
+	return nil //read empty stack
 }
 
 //移除栈顶元素
-func (this *Stack)Pop() error {
+func (this *Stack) Pop() error {
 	if this.Size() > 0 {
-		this.Element = this.Element[:this.Size() - 1]
+		this.Element = this.Element[:this.Size()-1]
 		return nil
 	} else {
-		return fmt.Errorf("Stack为空.")
+		return fmt.Errorf("stack is empty")
 	}
 }
 
 //交换堆栈值
-func (this *Stack)Swap(other *Stack) {
-	switch  {
+func (this *Stack) Swap(other *Stack) {
+	switch {
 	case this.Size() == 0 && other.Size() == 0:
 		return
 	case other.Size() == 0:
@@ -66,17 +66,17 @@ func (this *Stack)Swap(other *Stack) {
 }
 
 //修改指定索引元素
-func (this *Stack)Set(idx int, value interface{}) error {
+func (this *Stack) Set(idx int, value interface{}) error {
 	if idx >= 0 && this.Size() > 0 && this.Size() > idx {
 		this.Element[idx] = value
 		return nil
 	} else {
-		return fmt.Errorf("Set失败!")
+		return fmt.Errorf("set faild")
 	}
 }
 
 //返回指定索引的元素
-func (this *Stack)Get(idx int) interface{} {
+func (this *Stack) Get(idx int) interface{} {
 	if idx >= 0 && this.Size() > 0 && this.Size() > idx {
 		return this.Element[idx]
 	} else {
@@ -85,9 +85,8 @@ func (this *Stack)Get(idx int) interface{} {
 }
 
 //打印
-func (this *Stack)Print() {
+func (this *Stack) Print() {
 	for i, element := range this.Element {
 		fmt.Println(i, "=>", element)
 	}
 }
-

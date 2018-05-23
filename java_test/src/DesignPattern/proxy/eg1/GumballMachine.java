@@ -1,10 +1,12 @@
-package headfirst.designpatterns.proxy.gumball;
+package DesignPattern.proxy.eg1;
 
-import java.rmi.*;
-import java.rmi.server.*;
+/**
+ * Created by Administrator on 2018/5/10.
+ */
 
-public class GumballMachine extends UnicastRemoteObject implements GumballMachineRemote {
-    private static final long serialVersionUID = 2L;
+//糖果机
+public class GumballMachine {
+
     State soldOutState;
     State noQuarterState;
     State hasQuarterState;
@@ -13,22 +15,25 @@ public class GumballMachine extends UnicastRemoteObject implements GumballMachin
 
     State state = soldOutState;
     int count = 0;
-    String location;
+    String location;//位置记录
 
-    public GumballMachine(String location, int numberGumballs) throws RemoteException {
+    public GumballMachine(String location, int count) {
         soldOutState = new SoldOutState(this);
         noQuarterState = new NoQuarterState(this);
         hasQuarterState = new HasQuarterState(this);
         soldState = new SoldState(this);
         winnerState = new WinnerState(this);
-
-        this.count = numberGumballs;
-        if (numberGumballs > 0) {
+        this.location = location;
+        this.count = count;
+        if (this.count > 0) {
             state = noQuarterState;
         }
-        this.location = location;
     }
 
+    //获取位置
+    public String getLocation() {
+        return location;
+    }
 
     public void insertQuarter() {
         state.insertQuarter();
@@ -54,21 +59,18 @@ public class GumballMachine extends UnicastRemoteObject implements GumballMachin
         }
     }
 
-    public void refill(int count) {
-        this.count = count;
-        state = noQuarterState;
+    int getCount() {
+        return count;
     }
 
-    public int getCount() {
-        return count;
+    void refill(int count) {
+        this.count += count;
+        System.out.println("The gumball machine was just refilled; it's new count is: " + this.count);
+        state.refill();
     }
 
     public State getState() {
         return state;
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     public State getSoldOutState() {
@@ -94,7 +96,7 @@ public class GumballMachine extends UnicastRemoteObject implements GumballMachin
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("\nMighty Gumball, Inc.");
-        result.append("\nJava-enabled Standing Gumball Model #2014");
+        result.append("\nJava-enabled Standing Gumball Model #2004");
         result.append("\nInventory: " + count + " gumball");
         if (count != 1) {
             result.append("s");

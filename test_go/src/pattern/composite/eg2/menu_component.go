@@ -11,38 +11,39 @@ type MenuComponent interface {
 	GetDescription() string
 	IsVegetarian() bool
 	Print()
-	CreateIterator() Iterator//添加一个创建迭代器的方法
+	//添加一个创建迭代器的方法
+	CreateIterator() Iterator
 }
 
 //基础菜单组件（未实现CreateIterator方法）
 type BaseMenuComponent struct {
 }
 
-func (this *BaseMenuComponent)Add(menuComponent MenuComponent) {
+func (this *BaseMenuComponent) Add(menuComponent MenuComponent) {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)Remove(menuComponent MenuComponent) {
+func (this *BaseMenuComponent) Remove(menuComponent MenuComponent) {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetChild(i int) MenuComponent {
+func (this *BaseMenuComponent) GetChild(i int) MenuComponent {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetName() string {
+func (this *BaseMenuComponent) GetName() string {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetDescription() string {
+func (this *BaseMenuComponent) GetDescription() string {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)IsVegetarian() bool {
+func (this *BaseMenuComponent) IsVegetarian() bool {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)Print() {
+func (this *BaseMenuComponent) Print() {
 	panic("Unsupported Operation")
 }
 
@@ -72,27 +73,27 @@ func NewMenuItem(name, description string, vegetarian bool, price float64) MenuC
 }
 
 //重写MenuComponent接口的GetName方法
-func (this *MenuItem)GetName() string {
+func (this *MenuItem) GetName() string {
 	return this.name
 }
 
 //重写MenuComponent接口的GetDescription方法
-func (this *MenuItem)GetDescription() string {
+func (this *MenuItem) GetDescription() string {
 	return this.description
 }
 
 //重写MenuComponent接口的GetPrice方法
-func (this *MenuItem)GetPrice() float64 {
+func (this *MenuItem) GetPrice() float64 {
 	return this.price
 }
 
 //重写MenuComponent接口的IsVegetarian方法
-func (this *MenuItem)IsVegetarian() bool {
+func (this *MenuItem) IsVegetarian() bool {
 	return this.vegetarian
 }
 
 //重写MenuComponent接口的Print方法
-func (this *MenuItem)Print() {
+func (this *MenuItem) Print() {
 	fmt.Print("  " + this.GetName())
 	if this.IsVegetarian() {
 		fmt.Print("(v)")
@@ -102,9 +103,56 @@ func (this *MenuItem)Print() {
 }
 
 //实现MenuComponent接口的CreateIterator方法
-func (this *MenuItem)CreateIterator() Iterator {
+func (this *MenuItem) CreateIterator() Iterator {
 	if this.iterator == nil {
 		this.iterator = NewNilIterator()
+	}
+	return this.iterator
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+//菜单集合
+type MenuGather struct {
+	iterator       Iterator
+	menuComponents []MenuComponent
+}
+
+func NewMenuGather() *MenuGather {
+	this := new(MenuGather)
+	this.menuComponents = make([]MenuComponent, 0, 10)
+	return this
+}
+
+func (this *MenuGather) Add(menuComponent MenuComponent) {
+	for _, v := range this.menuComponents {
+		if v == menuComponent {
+			return
+		}
+	}
+	this.menuComponents = append(this.menuComponents, menuComponent)
+}
+
+func (this *MenuGather) Remove(menuComponent MenuComponent) {
+	for i, v := range this.menuComponents {
+		if v == menuComponent {
+			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i+1:]...)
+			return
+		}
+	}
+}
+
+func (this *MenuGather) Get(i int) MenuComponent {
+	if len(this.menuComponents) > i {
+		return this.menuComponents[i]
+	} else {
+		return nil
+	}
+}
+
+func (this *MenuGather) Iterator() Iterator {
+	if this.iterator == nil {
+		this.iterator = NewMenuGatherIterator(this.menuComponents)
 	}
 	return this.iterator
 }
@@ -131,32 +179,32 @@ func NewMenu(name, description string) MenuComponent {
 }
 
 //重写MenuComponent接口的GetName方法
-func (this *Menu)GetName() string {
+func (this *Menu) GetName() string {
 	return this.name
 }
 
 //重写MenuComponent接口的GetDescription方法
-func (this *Menu)GetDescription() string {
+func (this *Menu) GetDescription() string {
 	return this.description
 }
 
 //重写MenuComponent接口的GetChild方法
-func (this *Menu)GetChild(i int) MenuComponent {
+func (this *Menu) GetChild(i int) MenuComponent {
 	return this.menuGather.Get(i)
 }
 
 //重写MenuComponent接口的Add方法
-func (this *Menu)Add(menuComponent MenuComponent) {
+func (this *Menu) Add(menuComponent MenuComponent) {
 	this.menuGather.Add(menuComponent)
 }
 
 //重写MenuComponent接口的Remove方法
-func (this *Menu)Remove(menuComponent MenuComponent) {
+func (this *Menu) Remove(menuComponent MenuComponent) {
 	this.menuGather.Remove(menuComponent)
 }
 
 //重写MenuComponent接口的Print方法
-func (this *Menu)Print() {
+func (this *Menu) Print() {
 	fmt.Print("\n" + this.GetName())
 	fmt.Println(", " + this.GetDescription())
 	fmt.Println("--------------------------")
@@ -170,55 +218,9 @@ func (this *Menu)Print() {
 }
 
 //实现MenuComponent接口的CreateIterator方法
-func (this *Menu)CreateIterator() Iterator {
+func (this *Menu) CreateIterator() Iterator {
 	if this.iterator == nil {
 		this.iterator = NewCompositeIterator(this.menuGather.Iterator())
-	}
-	return this.iterator
-}
-
-/*---------------------------------------------*/
-//菜单集合
-type MenuGather struct {
-	iterator       Iterator
-	menuComponents []MenuComponent
-}
-
-func NewMenuGather() *MenuGather {
-	this := new(MenuGather)
-	this.menuComponents = make([]MenuComponent, 0, 10)
-	return this
-}
-
-func (this *MenuGather)Add(menuComponent MenuComponent) {
-	for _, v := range this.menuComponents {
-		if v == menuComponent {
-			return
-		}
-	}
-	this.menuComponents = append(this.menuComponents, menuComponent)
-}
-
-func (this *MenuGather)Remove(menuComponent MenuComponent) {
-	for i, v := range this.menuComponents {
-		if v == menuComponent {
-			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i + 1:]...)
-			return
-		}
-	}
-}
-
-func (this *MenuGather)Get(i int) MenuComponent {
-	if len(this.menuComponents) > i {
-		return this.menuComponents[i]
-	} else {
-		return nil
-	}
-}
-
-func (this *MenuGather)Iterator() Iterator {
-	if this.iterator == nil {
-		this.iterator = NewMenuGatherIterator(this.menuComponents)
 	}
 	return this.iterator
 }
