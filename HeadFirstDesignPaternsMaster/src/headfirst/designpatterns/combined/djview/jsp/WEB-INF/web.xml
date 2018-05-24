@@ -29,7 +29,7 @@
 
     <servlet>
       <servlet-name>DJViewServlet</servlet-name>
-      <servlet-class>headfirst.designpatterns.combining.djview.DJViewServlet</servlet-class>
+      <servlet-class>headfirst.designpatterns.designpatterns.combining.djview.DJViewServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

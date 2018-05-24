@@ -1,4 +1,4 @@
-package headfirst.designpatterns.composite.menu; 
+package headfirst.designpatterns.composite.menu;
 
 public class MenuTestDrive {
 	public static void main(String args[]) {

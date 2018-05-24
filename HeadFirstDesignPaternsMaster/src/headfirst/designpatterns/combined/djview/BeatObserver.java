@@ -1,4 +1,4 @@
-package headfirst.designpatterns.combining.djview;
+package headfirst.designpatterns.combined.djview;
   
 public interface BeatObserver {
 	void updateBeat();

@@ -1,6 +1,7 @@
 package headfirst.designpatterns.collections.iterator;
 
 import java.util.*;
+import java.util.Iterator;
 
 public class Cafe {
 
@@ -25,8 +26,8 @@ public class Cafe {
 		}
 		
 		// with iterators
-		Iterator pancakeIterator = pancakeHouseMenu.createIterator();
-		Iterator dinerIterator = dinerMenu.createIterator();
+		java.util.Iterator pancakeIterator = pancakeHouseMenu.createIterator();
+		java.util.Iterator dinerIterator = dinerMenu.createIterator();
 
 		System.out.println("\nMENU (with iterators)\n----\nBREAKFAST");
 		printMenu(pancakeIterator);

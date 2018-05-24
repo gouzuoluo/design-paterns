@@ -1,4 +1,4 @@
-package headfirst.designpatterns.combining.djview;
+package headfirst.designpatterns.combined.djview;
 
 public class HeartAdapter implements BeatModelInterface {
 	HeartModelInterface heart;

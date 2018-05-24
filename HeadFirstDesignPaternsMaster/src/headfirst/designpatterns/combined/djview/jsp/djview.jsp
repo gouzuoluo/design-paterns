@@ -1,4 +1,4 @@
-<jsp:useBean id="beatModel" scope="request" class="headfirst.designpatterns.combining.djview.BeatModel" />
+<jsp:useBean id="beatModel" scope="request" class="headfirst.designpatterns.designpatterns.combining.djview.BeatModel" />
 
 <html>
 <head>

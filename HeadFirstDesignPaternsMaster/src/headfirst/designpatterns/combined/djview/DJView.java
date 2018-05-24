@@ -1,4 +1,4 @@
-package headfirst.designpatterns.combining.djview;
+package headfirst.designpatterns.combined.djview;
     
 import java.awt.*;
 import java.awt.event.*;
