@@ -1,4 +1,4 @@
-package _1_strategy
+package eg1
 
 import "fmt"
 
