@@ -1,6 +1,6 @@
 package designpatterns.decorator.starbuzzWithSizes;
 
-import designpatterns.designpatterns.decorator.starbuzzWithSizes.Beverage.Size;
+import designpatterns.decorator.starbuzzWithSizes.Beverage.Size;
 
 public class StarbuzzCoffee {
  
