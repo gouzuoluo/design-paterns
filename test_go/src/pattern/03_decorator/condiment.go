@@ -1,4 +1,4 @@
-package decorator
+package _3_decorator
 
 //实现Beverage部分方法
 type Condiment struct {

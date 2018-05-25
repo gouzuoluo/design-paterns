@@ -1,4 +1,4 @@
-package decorator
+package _3_decorator
 
 type Size int8
 

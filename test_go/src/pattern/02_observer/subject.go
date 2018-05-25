@@ -1,4 +1,4 @@
-package observer
+package _2_observer
 
 type Subject interface {
 	RegisterObserver(observer Observer)
