@@ -1,8 +1,6 @@
-package _2_observer
+package eg1
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type Observer interface {
 	Update(temp, humidify, pressure float32)
@@ -12,9 +10,10 @@ type DisplayElement interface {
 	Display()
 }
 
-/*----------------------------------------------------------------------------------------------------------------*/
-
-//布告板1
+/*====================================================================================================================*/
+/*
+* 1.布告板1
+ */
 type CurrentConditionsDisplay struct {
 	temperature float32
 	humidity    float32
@@ -64,7 +63,9 @@ func (this *CurrentConditionsDisplay) Display() {
 		this.temperature, "F degrees and ", this.humidity, "% humidity"))
 }
 
-//布告板2
+/*
+* 2. 布告板2
+*/
 type StatisticsDisplay struct {
 	maxTemp, minTemp, tempSum float32
 	numReadings               int
@@ -98,7 +99,9 @@ func (this *StatisticsDisplay) Display() {
 		this.tempSum/float32(this.numReadings), "/", this.maxTemp, "/", this.minTemp))
 }
 
-//布告板3
+/*
+* 3.布告板3
+ */
 type ForecastDisplay struct {
 	currentPressure, lastPressure float32
 	weatherData                   *WeatherData //这里针对实现的编程不是很好
@@ -130,7 +133,9 @@ func (this *ForecastDisplay) Display() {
 	}
 }
 
-//布告板4
+/*
+* 4.布告板4
+ */
 type HeatIndexDisplay struct {
 	heatIndex   float32
 	weatherData *WeatherData //这里针对实现的编程不是很好

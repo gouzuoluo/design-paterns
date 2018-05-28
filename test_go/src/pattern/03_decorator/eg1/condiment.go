@@ -1,8 +1,8 @@
-package _3_decorator
+package eg1
 
-//实现Beverage部分方法
+//实现Beverage部分通用方法（未实现GetDescription，Cost方法）
 type Condiment struct {
-	beverage Beverage //存放被装饰的对象的引用
+	beverage Beverage //存放被包装对象
 }
 
 func (this *Condiment) GetSize() Size {
@@ -13,36 +13,37 @@ func (this *Condiment) SetSize(size Size) {
 	this.beverage.SetSize(size)
 }
 
-//未实现GetDescription方法
+/*---------------------------------------------调味品（同样实现Beverage接口）-----------------------------------------*/
 
-//未实现Cost方法
-
-/*---------------------------------------------------调味品---------------------------------------------------------*/
-//调味品1
+/*
+* 1. 调味品1
+ */
 type Milk struct {
 	Condiment
 }
 
-func NewCondiment(beverage Beverage) Beverage {
-	this := new(Condiment)
+func NewMilk(beverage Beverage) *Milk {
+	this := new(Milk)
 	this.beverage = beverage
 	return this
 }
 
-func (this *Condiment) GetDescription() string {
+func (this *Milk) GetDescription() string {
 	return this.beverage.GetDescription() + ",Milk"
 }
 
-func (this *Condiment) Cost() float64 {
+func (this *Milk) Cost() float64 {
 	return this.beverage.Cost() + .10
 }
 
-//调味品2
+/*
+* 2.调味品2
+ */
 type Mocha struct {
 	Condiment
 }
 
-func NewMocha(beverage Beverage) Beverage {
+func NewMocha(beverage Beverage) *Mocha {
 	this := new(Mocha)
 	this.beverage = beverage
 	return this
@@ -56,12 +57,14 @@ func (this *Mocha) Cost() float64 {
 	return this.beverage.Cost() + .20
 }
 
-//调味品3
+/*
+* 3.调味品3
+ */
 type Soy struct {
 	Condiment
 }
 
-func NewSoy(beverage Beverage) Beverage {
+func NewSoy(beverage Beverage) *Soy {
 	this := new(Soy)
 	this.beverage = beverage
 	return this
@@ -83,12 +86,14 @@ func (this *Soy) Cost() float64 {
 	return cost
 }
 
-//调味品4
+/*
+* 4.调味品4
+ */
 type Whip struct {
 	Condiment
 }
 
-func NewWhip(beverage Beverage) Beverage {
+func NewWhip(beverage Beverage) *Whip {
 	this := new(Whip)
 	this.beverage = beverage
 	return this

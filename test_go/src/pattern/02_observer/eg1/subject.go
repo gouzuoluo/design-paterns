@@ -1,14 +1,17 @@
-package _2_observer
+package eg1
 
+//主题类，管理着某些数据
 type Subject interface {
 	RegisterObserver(observer Observer)
 	RemoveObserver(observer Observer)
 	NotifyObservers()
 }
 
+/*===================================================================================================================*/
+
 //天气数据类
 type WeatherData struct {
-	observers                       []Observer
+	observers                       []Observer //精髓之处
 	temperature, humidify, pressure float32
 }
 
