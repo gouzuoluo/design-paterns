@@ -11,7 +11,7 @@ func NewSubject() *Subject {
 	return this
 }
 
-func (this *Subject) Attach(o Observer) {
+func (this *Subject) RegisterObserver(o Observer) {
 	this.observers = append(this.observers, o)
 }
 

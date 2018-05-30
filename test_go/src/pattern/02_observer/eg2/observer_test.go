@@ -9,9 +9,9 @@ func TestAll(t *testing.T) {
 	reader2 := NewReader("reader2")
 	reader3 := NewReader("reader3")
 
-	subject.Attach(reader1)
-	subject.Attach(reader2)
-	subject.Attach(reader3)
+	subject.RegisterObserver(reader1)
+	subject.RegisterObserver(reader2)
+	subject.RegisterObserver(reader3)
 
 	subject.UpdateContext("observer mode")
 }
