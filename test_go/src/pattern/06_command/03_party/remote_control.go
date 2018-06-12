@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-//遥控器，this is the invoker
+//遥控器（动作的请求者invoker）
 type RemoteControl struct {
 	onCommands  []Command
 	offCommands []Command

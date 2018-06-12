@@ -3,6 +3,8 @@ package _2_romote
 //命令接口
 type Command interface {
 	Execute()
+
+	Undo() //撤销
 }
 
 /*===================================================================================================================*/
@@ -14,116 +16,13 @@ type NoCommand struct {
 }
 
 func (this *NoCommand) Execute() {
-	//什么也不干
+}
+
+func (this *NoCommand) Undo() {
 }
 
 /*
-* 1.关闭吊扇
- */
-type CeilingFanOffCommand struct {
-	ceilingFan *CeilingFan
-}
-
-func NewCeilingFanOffCommand(ceilingFan *CeilingFan) *CeilingFanOffCommand {
-	this := new(CeilingFanOffCommand)
-	this.ceilingFan = ceilingFan
-	return this
-}
-
-func (this *CeilingFanOffCommand) Execute() {
-	this.ceilingFan.Off()
-}
-
-/*
-* 2.开吊扇
- */
-type CeilingFanOnCommand struct {
-	ceilingFan *CeilingFan
-}
-
-func NewCeilingFanOnCommand(ceilingFan *CeilingFan) *CeilingFanOnCommand {
-	this := new(CeilingFanOnCommand)
-	this.ceilingFan = ceilingFan
-	return this
-}
-
-func (this *CeilingFanOnCommand) Execute() {
-	this.ceilingFan.High()
-}
-
-/*
-* 3.开启车库门
- */
-type GarageDoorUpCommand struct {
-	garageDoor *GarageDoor
-}
-
-func NewGarageDoorUpCommand(garageDoor *GarageDoor) *GarageDoorUpCommand {
-	this := new(GarageDoorUpCommand)
-	this.garageDoor = garageDoor
-	return this
-}
-
-func (this *GarageDoorUpCommand) Execute() {
-	this.garageDoor.Up()
-}
-
-/*
-* 4.放下车库门
- */
-type GarageDoorDownCommand struct {
-	garageDoor *GarageDoor
-}
-
-func NewGarageDoorDownCommand(garageDoor *GarageDoor) *GarageDoorDownCommand {
-	this := new(GarageDoorDownCommand)
-	this.garageDoor = garageDoor
-	return this
-}
-
-func (this *GarageDoorDownCommand) Execute() {
-	this.garageDoor.Down()
-}
-
-/*
-* 5.打开热水浴缸
- */
-type HotTubOnCommand struct {
-	hotTub *HotTub
-}
-
-func NewHotTubOnCommand(hotTub *HotTub) *HotTubOnCommand {
-	this := new(HotTubOnCommand)
-	this.hotTub = hotTub
-	return this
-}
-
-func (this *HotTubOnCommand) Execute() {
-	this.hotTub.On()
-	this.hotTub.Heat()
-	this.hotTub.BubblesOn()
-}
-
-/*
-*6.关闭热水浴缸
- */
-type HotTubOffCommand struct {
-	hotTub *HotTub
-}
-
-func NewHotTubOffCommand(hotTub *HotTub) *HotTubOffCommand {
-	this := new(HotTubOffCommand)
-	this.hotTub = hotTub
-	return this
-}
-
-func (this *HotTubOffCommand) Execute() {
-	this.hotTub.Cool()
-	this.hotTub.Off()
-}
-
-/*
-* 7.开灯
+* 1.开灯
  */
 type LightOnCommand struct {
 	light *Light
@@ -139,8 +38,12 @@ func (this *LightOnCommand) Execute() {
 	this.light.On()
 }
 
+func (this *LightOnCommand) Undo() {
+	this.light.Off()
+}
+
 /*
-* 8.关灯
+* 2.关灯
  */
 type LightOffCommand struct {
 	light *Light
@@ -156,72 +59,135 @@ func (this *LightOffCommand) Execute() {
 	this.light.Off()
 }
 
-/*
-* 9.关闭客厅灯
- */
-type LivingRoomLightOffCommand struct {
-	light *Light
-}
-
-func NewLivingRoomLightOffCommand(light *Light) *LivingRoomLightOffCommand {
-	this := new(LivingRoomLightOffCommand)
-	this.light = light
-	return this
-}
-
-func (this *LivingRoomLightOffCommand) Execute() {
-	this.light.Off()
-}
-
-/*
-* 10.打开客厅灯
- */
-type LivingRoomLightOnCommand struct {
-	light *Light
-}
-
-func NewLivingRoomLightOnCommand(light *Light) *LivingRoomLightOnCommand {
-	this := new(LivingRoomLightOnCommand)
-	this.light = light
-	return this
-}
-
-func (this *LivingRoomLightOnCommand) Execute() {
+func (this *LightOffCommand) Undo() {
 	this.light.On()
 }
 
 /*
-* 11.关闭立体音响
+* 3.高速运行吊扇
  */
-type StereoOffCommand struct {
-	stereo *Stereo
+type CeilingFanHighCommand struct {
+	ceilingFan *CeilingFan
+	prevSpeed  int //增加局部状态以便追踪吊扇之前的速度
 }
 
-func NewStereoOffCommand(stereo *Stereo) *StereoOffCommand {
-	this := new(StereoOffCommand)
-	this.stereo = stereo
+func NewCeilingFanHighCommand(ceilingFan *CeilingFan) *CeilingFanHighCommand {
+	this := new(CeilingFanHighCommand)
+	this.ceilingFan = ceilingFan
 	return this
 }
 
-func (this *StereoOffCommand) Execute() {
-	this.stereo.Off()
+func (this *CeilingFanHighCommand) Execute() {
+	this.prevSpeed = this.ceilingFan.GetSpeed()
+	this.ceilingFan.High()
+}
+
+func (this *CeilingFanHighCommand) Undo() {
+	switch this.prevSpeed {
+	case HIGH:
+		this.ceilingFan.High()
+	case MEDIUM:
+		this.ceilingFan.Medium()
+	case LOW:
+		this.ceilingFan.Low()
+	case OFF:
+		this.ceilingFan.Off()
+	}
 }
 
 /*
-* 12.播放CD
+* 4.中速运行吊扇
  */
-type StereoOnWithCDCommand struct {
-	stereo *Stereo
+type CeilingFanMediumCommand struct {
+	ceilingFan *CeilingFan
+	prevSpeed  int //增加局部状态以便追踪吊扇之前的速度
 }
 
-func NewStereoOnWithCDCommand(stereo *Stereo) *StereoOnWithCDCommand {
-	this := new(StereoOnWithCDCommand)
-	this.stereo = stereo
+func NewCeilingFanMediumCommand(ceilingFan *CeilingFan) *CeilingFanMediumCommand {
+	this := new(CeilingFanMediumCommand)
+	this.ceilingFan = ceilingFan
 	return this
 }
 
-func (this *StereoOnWithCDCommand) Execute() {
-	this.stereo.On()
-	this.stereo.SetCD()
-	this.stereo.SetVolume(11)
+func (this *CeilingFanMediumCommand) Execute() {
+	this.prevSpeed = this.ceilingFan.GetSpeed()
+	this.ceilingFan.Medium()
 }
+
+func (this *CeilingFanMediumCommand) Undo() {
+	switch this.prevSpeed {
+	case HIGH:
+		this.ceilingFan.High()
+	case MEDIUM:
+		this.ceilingFan.Medium()
+	case LOW:
+		this.ceilingFan.Low()
+	case OFF:
+		this.ceilingFan.Off()
+	}
+}
+
+/*
+* 5.低速运行吊扇
+ */
+type CeilingFanLowCommand struct {
+	ceilingFan *CeilingFan
+	prevSpeed  int //增加局部状态以便追踪吊扇之前的速度
+}
+
+func NewCeilingFanLowCommand(ceilingFan *CeilingFan) *CeilingFanLowCommand {
+	this := new(CeilingFanLowCommand)
+	this.ceilingFan = ceilingFan
+	return this
+}
+
+func (this *CeilingFanLowCommand) Execute() {
+	this.prevSpeed = this.ceilingFan.GetSpeed()
+	this.ceilingFan.Low()
+}
+
+func (this *CeilingFanLowCommand) Undo() {
+	switch this.prevSpeed {
+	case HIGH:
+		this.ceilingFan.High()
+	case MEDIUM:
+		this.ceilingFan.Medium()
+	case LOW:
+		this.ceilingFan.Low()
+	case OFF:
+		this.ceilingFan.Off()
+	}
+}
+
+/*
+* 6.关闭吊扇
+ */
+type CeilingFanOffCommand struct {
+	ceilingFan *CeilingFan
+	prevSpeed  int //增加局部状态以便追踪吊扇之前的速度
+}
+
+func NewCeilingFanOffCommand(ceilingFan *CeilingFan) *CeilingFanOffCommand {
+	this := new(CeilingFanOffCommand)
+	this.ceilingFan = ceilingFan
+	return this
+}
+
+func (this *CeilingFanOffCommand) Execute() {
+	this.prevSpeed = this.ceilingFan.GetSpeed()
+	this.ceilingFan.Off()
+}
+
+func (this *CeilingFanOffCommand) Undo() {
+	switch this.prevSpeed {
+	case HIGH:
+		this.ceilingFan.High()
+	case MEDIUM:
+		this.ceilingFan.Medium()
+	case LOW:
+		this.ceilingFan.Low()
+	case OFF:
+		this.ceilingFan.Off()
+	}
+}
+

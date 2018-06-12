@@ -6,10 +6,11 @@ import (
 	"fmt"
 )
 
-//遥控器，this is the invoker
+//遥控器（动作的请求者invoker）
 type RemoteControl struct {
 	onCommands  []Command //一排开命令插槽
 	offCommands []Command //一排关命令插槽
+	undoCommand Command   //前一个命令被记录在此
 }
 
 func NewRemoteControl() *RemoteControl {
@@ -21,6 +22,7 @@ func NewRemoteControl() *RemoteControl {
 		this.onCommands[i] = noCommand
 		this.offCommands[i] = noCommand
 	}
+	this.undoCommand = noCommand //一开始没有前一个命令
 	return this
 }
 
@@ -31,10 +33,16 @@ func (this *RemoteControl) SetCommand(slot int, onCommand, offCommand Command) {
 
 func (this *RemoteControl) OnButtonWasPushed(slot int) {
 	this.onCommands[slot].Execute()
+	this.undoCommand = this.onCommands[slot] //记录被执行的命令
 }
 
 func (this *RemoteControl) OffButtonWasPushed(slot int) {
 	this.offCommands[slot].Execute()
+	this.undoCommand = this.offCommands[slot] //记录被执行的命令
+}
+
+func (this *RemoteControl) UndoButtonWasPushed() {
+	this.undoCommand.Undo()
 }
 
 func (this *RemoteControl) String() string {

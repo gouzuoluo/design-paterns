@@ -31,14 +31,14 @@ func TestAll(t *testing.T) {
 	var stereoOnWithCD *StereoOnWithCDCommand = NewStereoOnWithCDCommand(stereo)
 	var stereoOff *StereoOffCommand = NewStereoOffCommand(stereo)
 
-	//创建宏命令
-	var partyOnMarcro *MacroCommand = NewMacroCommand([]Command{
+	//创建批量命令
+	var partyOnMacro *MacroCommand = NewMacroCommand([]Command{
 		livingRoomLightOn,
 		kitchenLightOn,
 		ceilingFanOn,
 		stereoOnWithCD,
 	})
-	var partyOffMarcro *MacroCommand = NewMacroCommand([]Command{
+	var partyOffMacro *MacroCommand = NewMacroCommand([]Command{
 		livingRoomLightOff,
 		kitchenLightOff,
 		ceilingFanOff,
@@ -46,7 +46,7 @@ func TestAll(t *testing.T) {
 	})
 
 	//加载命令到指定的遥插槽中
-	remoteControl.SetCommand(0, partyOnMarcro, partyOffMarcro)
+	remoteControl.SetCommand(0, partyOnMacro, partyOffMacro)
 
 	//打印遥控器插槽，及其插槽所指向的命令
 	fmt.Println(remoteControl)

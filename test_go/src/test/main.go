@@ -1,6 +1,9 @@
 package main
 
+import "fmt"
+
 func main() {
-	F1()
-	Login()
+	fmt.Printf("%f\n",1.2357000)
+	fmt.Printf("%.2f\n",1.2357000)
+
 }

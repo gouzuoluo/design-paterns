@@ -3,7 +3,7 @@ package romote
 import "fmt"
 
 /*
-*  命令接收者。这里是各种device
+*  动作的执行者，它知道如何进行必要的工作。任何类都可以当动作的执行者
 */
 
 //1.电视
@@ -168,35 +168,36 @@ const (
 
 type CeilingFan struct {
 	location string
-	level    int
+	speed    int
 }
 
 func NewCeilingFan(location string) *CeilingFan {
 	this := new(CeilingFan)
 	this.location = location
+	this.speed = OFF
 	return this
 }
 
 func (this *CeilingFan) High() {
-	this.level = HIGH
+	this.speed = HIGH
 	fmt.Println(this.location + " ceiling fan is on high")
 }
 
 func (this *CeilingFan) Medium() {
-	this.level = MEDIUM
+	this.speed = MEDIUM
 	fmt.Println(this.location + " ceiling fan is on medium")
 }
 
 func (this *CeilingFan) Low() {
-	this.level = LOW
+	this.speed = LOW
 	fmt.Println(this.location + " ceiling fan is on low")
 }
 
 func (this *CeilingFan) Off() {
-	this.level = OFF
+	this.speed = OFF
 	fmt.Println(this.location + " ceiling fan is off")
 }
 
 func (this *CeilingFan) GetSpeed() int {
-	return this.level
+	return this.speed
 }

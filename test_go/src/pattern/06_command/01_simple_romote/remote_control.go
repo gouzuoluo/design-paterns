@@ -1,6 +1,6 @@
 package _1_simple_romote
 
-//只有一个命令插槽的遥控器，它是一个Invoker
+//只有一个命令插槽的遥控器(动作的请求者Invoker)
 type SimpleRemoteControl struct {
 	slot Command
 }

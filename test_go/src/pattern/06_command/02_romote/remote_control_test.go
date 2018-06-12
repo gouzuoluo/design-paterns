@@ -9,39 +9,30 @@ import (
 )
 
 func TestAll(t *testing.T) {
+	//遥控器
 	var remoteControl *RemoteControl = NewRemoteControl()
 
 	//创建所有的设备device
-	var livingRoomLight *Light = NewLight("Living Room")      //客厅灯
-	var kitchenLight *Light = NewLight("Kitchen")             //厨房灯
-	var ceilingFan *CeilingFan = NewCeilingFan("Living Room") //客厅吊扇
-	var garageDoor *GarageDoor = NewGarageDoor("")            //车库门
-	var stereo *Stereo = NewStereo("Living Room")             //立体影响
+	var light *Light = NewLight("Living Room")                //灯
+	var ceilingFan *CeilingFan = NewCeilingFan("Living Room") //吊扇
+
 
 	//创建所有的灯命令
-	var livingRoomLightOn *LightOnCommand = NewLightOnCommand(livingRoomLight)
-	var livingRoomLightOff *LightOffCommand = NewLightOffCommand(livingRoomLight)
-	var kitchenLightOn *LightOnCommand = NewLightOnCommand(kitchenLight)
-	var kitchenLightOff *LightOffCommand = NewLightOffCommand(kitchenLight)
+	var lightOn *LightOnCommand = NewLightOnCommand(light)
+	var lightOff *LightOffCommand = NewLightOffCommand(light)
 
-	//创建吊扇的开与关命令
-	var ceilingFanOn *CeilingFanOnCommand = NewCeilingFanOnCommand(ceilingFan)
+
+	//创建吊扇相关关命令
+	var ceilingFanHigh *CeilingFanHighCommand = NewCeilingFanHighCommand(ceilingFan)
+	var ceilingFanMedium *CeilingFanMediumCommand = NewCeilingFanMediumCommand(ceilingFan)
+	var ceilingFanLow *CeilingFanLowCommand = NewCeilingFanLowCommand(ceilingFan)
 	var ceilingFanOff *CeilingFanOffCommand = NewCeilingFanOffCommand(ceilingFan)
 
-	//创建车库门的上与下命令
-	var garageDoorUp *GarageDoorUpCommand = NewGarageDoorUpCommand(garageDoor)
-	var garageDoorDown *GarageDoorDownCommand = NewGarageDoorDownCommand(garageDoor)
-
-	//创建立体音响的开与关命令
-	var stereoOnWithCD *StereoOnWithCDCommand = NewStereoOnWithCDCommand(stereo)
-	var stereoOff *StereoOffCommand = NewStereoOffCommand(stereo)
 
 	//现在已经有了全部命令，可以将他们全部加载到遥插槽中
-	remoteControl.SetCommand(0, livingRoomLightOn, livingRoomLightOff)
-	remoteControl.SetCommand(1, kitchenLightOn, kitchenLightOff)
-	remoteControl.SetCommand(2, ceilingFanOn, ceilingFanOff)
-	remoteControl.SetCommand(3, stereoOnWithCD, stereoOff)
-	remoteControl.SetCommand(4, garageDoorUp, garageDoorDown)
+	remoteControl.SetCommand(0, lightOn, lightOff)
+	remoteControl.SetCommand(1, ceilingFanHigh, ceilingFanMedium)
+	remoteControl.SetCommand(2, ceilingFanLow, ceilingFanOff)
 
 	//打印遥控器插槽，及其插槽所指向的命令
 	fmt.Println(remoteControl)
@@ -49,19 +40,17 @@ func TestAll(t *testing.T) {
 	//测试每个插槽的开关按钮
 	remoteControl.OnButtonWasPushed(0)
 	remoteControl.OffButtonWasPushed(0)
+	remoteControl.UndoButtonWasPushed()
 
 	remoteControl.OnButtonWasPushed(1)
 	remoteControl.OffButtonWasPushed(1)
+	remoteControl.UndoButtonWasPushed()
 
 	remoteControl.OnButtonWasPushed(2)
+	remoteControl.UndoButtonWasPushed()
 	remoteControl.OffButtonWasPushed(2)
+	remoteControl.UndoButtonWasPushed()
 
 	remoteControl.OnButtonWasPushed(3)
 	remoteControl.OffButtonWasPushed(3)
-
-	remoteControl.OnButtonWasPushed(4)
-	remoteControl.OffButtonWasPushed(4)
-
-	remoteControl.OnButtonWasPushed(5)
-	remoteControl.OffButtonWasPushed(5)
 }

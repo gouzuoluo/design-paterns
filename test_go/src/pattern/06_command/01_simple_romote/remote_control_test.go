@@ -7,20 +7,16 @@ import "testing"
 
 func TestAll(t *testing.T) {
 
-	//构建开灯命令
-	var lightOn *LightOnCommand = NewLightOnCommand(new(Light))
-
-	//构建打开车库门命令
-	var doorOpen *GarageDoorOpenCommand = NewGarageDoorOpenCommand(new(GarageDoor))
-
 	//简单遥控
 	var remote *SimpleRemoteControl = new(SimpleRemoteControl)
 
-	//开灯
+	//1.开灯
+	var lightOn *LightOnCommand = NewLightOnCommand(new(Light)) //构建开灯命令
 	remote.SetCommand(lightOn)
 	remote.ButtonWasPressed()
 
-	//开车库门
+	//2.开车库门
+	var doorOpen *GarageDoorOpenCommand = NewGarageDoorOpenCommand(new(GarageDoor)) //构建打开车库门命令
 	remote.SetCommand(doorOpen)
 	remote.ButtonWasPressed()
 }
