@@ -10,7 +10,9 @@ type Iterator interface {
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-//1.煎饼屋菜单(早餐菜单)的迭代器
+/*
+* 1.煎饼屋菜单(早餐菜单)的迭代器
+ */
 type PancakeHouseMenuIterator struct {
 	items    *list.List
 	position *list.Element
@@ -43,7 +45,9 @@ func (this *PancakeHouseMenuIterator)HasNext() bool {
 	}
 }
 
-//2.餐厅菜单（午餐菜单）的迭代器
+/*
+* 2.餐厅菜单（午餐菜单）的迭代器
+ */
 type DinerMenuIterator struct {
 	menuItems []*MenuItem
 	position  int
@@ -76,7 +80,9 @@ func (this *DinerMenuIterator)HasNext() bool {
 	}
 }
 
-//3.咖啡馆菜单（晚餐菜单）迭代器
+/*
+* 3.咖啡馆菜单（晚餐菜单）迭代器
+ */
 type CafeMenuIterator struct {
 	menuItems    map[string]*MenuItem
 	menuItemKeys []string

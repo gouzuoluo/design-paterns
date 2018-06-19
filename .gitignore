@@ -1,0 +1,9 @@
+*.exe
+HeadFirst/.idea/
+HeadFirst/HeadFirst.iml
+HeadFirst/out/
+java_test/.idea/
+java_test/java_test.iml
+java_test/out/
+test_go/.idea/
+test_go/bin/

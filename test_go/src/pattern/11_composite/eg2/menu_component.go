@@ -11,8 +11,8 @@ type MenuComponent interface {
 	GetDescription() string
 	IsVegetarian() bool
 	Print()
-	//添加一个创建迭代器的方法
-	CreateIterator() Iterator
+
+	CreateIterator() Iterator //添加一个创建迭代器的方法
 }
 
 //基础菜单组件（未实现CreateIterator方法）

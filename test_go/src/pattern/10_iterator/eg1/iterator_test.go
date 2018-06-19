@@ -9,8 +9,7 @@ func TestAll(t *testing.T) {
 	var pancakeHouseMenu *PancakeHouseMenu = NewPancakeHouseMenu()//早餐菜单
 	var dinerMenu *DinerMenu = NewDinerMenu()//午餐菜单
 
-	// Without iterators
-	//printMenu();
+	//printMenu();// Without iterators
 
 	//女服务员
 	var waitress *Waitress = NewWaitress(pancakeHouseMenu, dinerMenu)

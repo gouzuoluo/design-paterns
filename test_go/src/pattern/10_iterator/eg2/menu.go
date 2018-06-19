@@ -1,8 +1,6 @@
 package eg2
 
-import (
-	"container/list"
-)
+import "container/list"
 
 //菜单接口
 type Menu interface {
@@ -11,7 +9,9 @@ type Menu interface {
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-//1.煎饼屋的菜单（早餐菜单）
+/*
+* 1.煎饼屋的菜单（早餐菜单）
+ */
 type PancakeHouseMenu struct {
 	menuItems *list.List
 }
@@ -23,7 +23,7 @@ func NewPancakeHouseMenu() *PancakeHouseMenu {
 	return this
 }
 
-func (this *PancakeHouseMenu)init() {
+func (this *PancakeHouseMenu) init() {
 	this.addItem("K&B's Pancake Breakfast",
 		"Pancakes with scrambled eggs, and toast",
 		true,
@@ -44,32 +44,31 @@ func (this *PancakeHouseMenu)init() {
 		true,
 		3.59)
 }
+
 //添加菜单项
-func (this *PancakeHouseMenu)addItem(name, description string, vegetarian bool, price float64) {
+func (this *PancakeHouseMenu) addItem(name, description string, vegetarian bool, price float64) {
 	menuItem := NewMenuItem(name, description, vegetarian, price)
 	this.menuItems.PushBack(menuItem)
 }
 
 //获取菜单列表
-func (this *PancakeHouseMenu)GetMenuItems() *list.List {
+func (this *PancakeHouseMenu) GetMenuItems() *list.List {
 	return this.menuItems
 }
 
-
 //实现Menu接口的createIterator方法
-func (this *PancakeHouseMenu)CreateIterator() Iterator {
+func (this *PancakeHouseMenu) CreateIterator() Iterator {
 	return NewPancakeHouseMenuIterator(this.menuItems)
 }
 
 //
-func (this *PancakeHouseMenu)String() string {
+func (this *PancakeHouseMenu) String() string {
 	return "Objective Pancake House Menu"
 }
 
-// other menu methods here
-
-
-//2.餐厅的菜单（午餐菜单）
+/*
+* 2.餐厅的菜单（午餐菜单）
+ */
 type DinerMenu struct {
 	menuItems []*MenuItem
 }
@@ -81,44 +80,55 @@ func NewDinerMenu() *DinerMenu {
 	return this
 }
 
-func (this *DinerMenu)init() {
+func (this *DinerMenu) init() {
 	this.addItem("Vegetarian BLT",
-		"(Fakin') Bacon with lettuce & tomato on whole wheat", true, 2.99)
+		"(Fakin') Bacon with lettuce & tomato on whole wheat",
+		true,
+		2.99)
+
 	this.addItem("BLT",
-		"Bacon with lettuce & tomato on whole wheat", false, 2.99)
+		"Bacon with lettuce & tomato on whole wheat",
+		false,
+		2.99)
+
 	this.addItem("Soup of the day",
-		"Soup of the day, with a side of potato salad", false, 3.29)
+		"Soup of the day, with a side of potato salad",
+		false,
+		3.29)
+
 	this.addItem("Hotdog",
 		"A hot dog, with saurkraut, relish, onions, topped with cheese",
-		false, 3.05)
+		false,
+		3.05)
+
 	this.addItem("Steamed Veggies and Brown Rice",
-		"Steamed vegetables over brown rice", true, 3.99)
+		"Steamed vegetables over brown rice",
+		true,
+		3.99)
+
 	this.addItem("Pasta",
 		"Spaghetti with Marinara Sauce, and a slice of sourdough bread",
-		true, 3.89)
+		true,
+		3.89)
 }
 
-func (this *DinerMenu)addItem(name, description string, vegetarian bool, price float64) {
+func (this *DinerMenu) addItem(name, description string, vegetarian bool, price float64) {
 	menuItem := NewMenuItem(name, description, vegetarian, price)
 	this.menuItems = append(this.menuItems, menuItem)
 }
 
-func (this *DinerMenu)GetMenuItems() []*MenuItem {
+func (this *DinerMenu) GetMenuItems() []*MenuItem {
 	return this.menuItems
 }
 
 //实现Menu接口的CreateIterator方法
-func (this *DinerMenu)CreateIterator() Iterator {
+func (this *DinerMenu) CreateIterator() Iterator {
 	return NewDinerMenuIterator(this.menuItems)
-	// To test Alternating menu items, comment out above line,
-	// and uncomment the line below.
-	//return new AlternatingDinerMenuIterator(menuItems)
 }
 
-// other menu methods here
-
-
-//3.咖啡馆菜单(晚餐菜单)
+/*
+* 3.咖啡馆菜单(晚餐菜单)
+ */
 type CafeMenu struct {
 	menuItems map[string]*MenuItem
 }
@@ -130,28 +140,33 @@ func NewCafeMenu() *CafeMenu {
 	return this
 }
 
-func (this *CafeMenu)init() {
+func (this *CafeMenu) init() {
 	this.addItem("Veggie Burger and Air Fries",
 		"Veggie burger on a whole wheat bun, lettuce, tomato, and fries",
-		true, 3.99)
+		true,
+		3.99)
+
 	this.addItem("Soup of the day",
 		"A cup of the soup of the day, with a side salad",
-		false, 3.69)
+		false,
+		3.69)
+
 	this.addItem("Burrito",
 		"A large burrito, with whole pinto beans, salsa, guacamole",
-		true, 4.29)
+		true,
+		4.29)
 }
 
-func (this *CafeMenu)addItem(name, description string, vegetarian bool, price float64) {
+func (this *CafeMenu) addItem(name, description string, vegetarian bool, price float64) {
 	menuItem := NewMenuItem(name, description, vegetarian, price)
 	this.menuItems[menuItem.GetName()] = menuItem
 }
 
-func (this *CafeMenu)GetItems() map[string]*MenuItem {
+func (this *CafeMenu) GetItems() map[string]*MenuItem {
 	return this.menuItems
 }
 
 //实现Menu接口的CreateIterator方法
-func (this *CafeMenu)CreateIterator() Iterator {
+func (this *CafeMenu) CreateIterator() Iterator {
 	return NewCafeMenuIterator(this.menuItems)
 }

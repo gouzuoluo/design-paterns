@@ -2,7 +2,7 @@ package eg1
 
 import "fmt"
 
-//菜单组件接口
+//菜单组件接口（菜单和菜单项共同的接口）
 type MenuComponent interface {
 	Add(menuComponent MenuComponent)
 	Remove(menuComponent MenuComponent)
@@ -16,36 +16,38 @@ type MenuComponent interface {
 type BaseMenuComponent struct {
 }
 
-func (this *BaseMenuComponent)Add(menuComponent MenuComponent) {
+func (this *BaseMenuComponent) Add(menuComponent MenuComponent) {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)Remove(menuComponent MenuComponent) {
+func (this *BaseMenuComponent) Remove(menuComponent MenuComponent) {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetChild(i int) MenuComponent {
+func (this *BaseMenuComponent) GetChild(i int) MenuComponent {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetName() string {
+func (this *BaseMenuComponent) GetName() string {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)GetDescription() string {
+func (this *BaseMenuComponent) GetDescription() string {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)IsVegetarian() bool {
+func (this *BaseMenuComponent) IsVegetarian() bool {
 	panic("Unsupported Operation")
 }
 
-func (this *BaseMenuComponent)Print() {
+func (this *BaseMenuComponent) Print() {
 	panic("Unsupported Operation")
 }
 
 /*===================================================================================================================*/
-//1.菜单项(继承菜单组件,并重写部分方法)
+/*
+* 1.菜单项(继承菜单组件,并重写部分方法)
+ */
 type MenuItem struct {
 	BaseMenuComponent
 
@@ -65,27 +67,27 @@ func NewMenuItem(name, description string, vegetarian bool, price float64) MenuC
 }
 
 //重写MenuComponent接口的GetName方法
-func (this *MenuItem)GetName() string {
+func (this *MenuItem) GetName() string {
 	return this.name
 }
 
 //重写MenuComponent接口的GetDescription方法
-func (this *MenuItem)GetDescription() string {
+func (this *MenuItem) GetDescription() string {
 	return this.description
 }
 
 //重写MenuComponent接口的GetPrice方法
-func (this *MenuItem)GetPrice() float64 {
+func (this *MenuItem) GetPrice() float64 {
 	return this.price
 }
 
 //重写MenuComponent接口的IsVegetarian方法
-func (this *MenuItem)IsVegetarian() bool {
+func (this *MenuItem) IsVegetarian() bool {
 	return this.vegetarian
 }
 
 //重写MenuComponent接口的Print方法
-func (this *MenuItem)Print() {
+func (this *MenuItem) Print() {
 	fmt.Print("  " + this.GetName())
 	if this.IsVegetarian() {
 		fmt.Print("(v)")
@@ -94,13 +96,13 @@ func (this *MenuItem)Print() {
 	fmt.Println("     -- " + this.GetDescription())
 }
 
-
-
-//2.菜单(继承菜单组件,并重写部分方法)——组合
+/*
+* 2.菜单(继承菜单组件,并重写部分方法)
+ */
 type Menu struct {
 	BaseMenuComponent
 
-	menuComponents []MenuComponent //菜单组合
+	menuComponents []MenuComponent //菜单项集合
 	name           string          //菜单项名
 	description    string          //菜单项描述
 }
@@ -114,17 +116,17 @@ func NewMenu(name, description string) MenuComponent {
 }
 
 //重写MenuComponent接口的GetName方法
-func (this *Menu)GetName() string {
+func (this *Menu) GetName() string {
 	return this.name
 }
 
 //重写MenuComponent接口的GetDescription方法
-func (this *Menu)GetDescription() string {
+func (this *Menu) GetDescription() string {
 	return this.description
 }
 
 //重写MenuComponent接口的GetChild方法
-func (this *Menu)GetChild(i int) MenuComponent {
+func (this *Menu) GetChild(i int) MenuComponent {
 	if len(this.menuComponents) > i {
 		return this.menuComponents[i]
 	} else {
@@ -133,7 +135,7 @@ func (this *Menu)GetChild(i int) MenuComponent {
 }
 
 //重写MenuComponent接口的Add方法
-func (this *Menu)Add(menuComponent MenuComponent) {
+func (this *Menu) Add(menuComponent MenuComponent) {
 	for _, v := range this.menuComponents {
 		if v == menuComponent {
 			return
@@ -143,22 +145,22 @@ func (this *Menu)Add(menuComponent MenuComponent) {
 }
 
 //重写MenuComponent接口的Remove方法
-func (this *Menu)Remove(menuComponent MenuComponent) {
+func (this *Menu) Remove(menuComponent MenuComponent) {
 	for i, v := range this.menuComponents {
 		if v == menuComponent {
-			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i + 1:]...)
+			this.menuComponents = append(this.menuComponents[:i], this.menuComponents[i+1:]...)
 			return
 		}
 	}
 }
 
 //重写MenuComponent接口的Print方法
-func (this *Menu)Print() {
+func (this *Menu) Print() {
 	fmt.Print("\n" + this.GetName())
 	fmt.Println(", " + this.GetDescription())
 	fmt.Println("--------------------------")
 
-	//遍历菜单组合
+	//遍历菜单项集合
 	for _, v := range this.menuComponents {
 		v.Print()
 	}

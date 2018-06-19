@@ -19,22 +19,22 @@ func NewMenuItem(name, description string, vegetarian bool, price float64) *Menu
 	return this
 }
 
-func (this *MenuItem)GetName() string {
+func (this *MenuItem) GetName() string {
 	return this.name
 }
 
-func (this *MenuItem)GetDescription() string {
+func (this *MenuItem) GetDescription() string {
 	return this.description
 }
 
-func (this *MenuItem)GetPrice() float64 {
+func (this *MenuItem) GetPrice() float64 {
 	return this.price
 }
 
-func (this *MenuItem)IsVegetarian() bool {
+func (this *MenuItem) IsVegetarian() bool {
 	return this.vegetarian
 }
 
-func (this *MenuItem)String() string {
+func (this *MenuItem) String() string {
 	return this.name + ", $" + fmt.Sprintf("%f", this.price) + "\n   " + this.description
 }
