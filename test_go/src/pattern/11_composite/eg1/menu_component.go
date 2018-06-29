@@ -102,7 +102,7 @@ func (this *MenuItem) Print() {
 type Menu struct {
 	BaseMenuComponent
 
-	menuComponents []MenuComponent //菜单项集合
+	menuComponents []MenuComponent //菜单组件集合
 	name           string          //菜单项名
 	description    string          //菜单项描述
 }
@@ -160,7 +160,7 @@ func (this *Menu) Print() {
 	fmt.Println(", " + this.GetDescription())
 	fmt.Println("--------------------------")
 
-	//遍历菜单项集合
+	//遍历菜单组件集合(天然递归了)
 	for _, v := range this.menuComponents {
 		v.Print()
 	}

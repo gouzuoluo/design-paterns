@@ -8,34 +8,34 @@ import (
 func TestAll(t *testing.T) {
 	gumballMachine := NewGumballMachine(5)
 
-	fmt.Println(gumballMachine);
+	fmt.Println(gumballMachine)
 
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
 
-	fmt.Println(gumballMachine);
+	fmt.Println(gumballMachine)
 
-	gumballMachine.InsertQuarter();
-	gumballMachine.EjectQuarter();
-	gumballMachine.TurnCrank();
+	gumballMachine.InsertQuarter()
+	gumballMachine.EjectQuarter()
+	gumballMachine.TurnCrank()
 
-	fmt.Println(gumballMachine);
+	fmt.Println(gumballMachine)
 
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
-	gumballMachine.EjectQuarter();
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
+	gumballMachine.EjectQuarter()
 
-	fmt.Println(gumballMachine);
+	fmt.Println(gumballMachine)
 
-	gumballMachine.InsertQuarter();
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
-	gumballMachine.InsertQuarter();
-	gumballMachine.TurnCrank();
+	gumballMachine.InsertQuarter()
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
+	gumballMachine.InsertQuarter()
+	gumballMachine.TurnCrank()
 
-	fmt.Println(gumballMachine);
+	fmt.Println(gumballMachine)
 }

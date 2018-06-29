@@ -55,16 +55,14 @@ func (this *BaseMenuComponent) Print() {
 type MenuItem struct {
 	BaseMenuComponent
 
-	iterator    Iterator //迭代器
-	name        string   //菜单项名
-	description string   //菜单项描述
-	vegetarian  bool     //是否是蔬菜
-	price       float64  //价格
+	name        string  //菜单项名
+	description string  //菜单项描述
+	vegetarian  bool    //是否是蔬菜
+	price       float64 //价格
 }
 
 func NewMenuItem(name, description string, vegetarian bool, price float64) MenuComponent {
 	this := new(MenuItem)
-	this.iterator = nil
 	this.name = name
 	this.description = description
 	this.vegetarian = vegetarian
@@ -103,18 +101,14 @@ func (this *MenuItem) Print() {
 }
 
 //实现MenuComponent接口的CreateIterator方法
-func (this *MenuItem) CreateIterator() Iterator {
-	if this.iterator == nil {
-		this.iterator = NewNilIterator()
-	}
-	return this.iterator
+func (*MenuItem) CreateIterator() Iterator {
+	return NewNilIterator()
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 //菜单集合
 type MenuGather struct {
-	iterator       Iterator
 	menuComponents []MenuComponent
 }
 
@@ -151,19 +145,15 @@ func (this *MenuGather) Get(i int) MenuComponent {
 }
 
 func (this *MenuGather) Iterator() Iterator {
-	if this.iterator == nil {
-		this.iterator = NewMenuGatherIterator(this.menuComponents)
-	}
-	return this.iterator
+	return NewMenuGatherIterator(this.menuComponents)
 }
 
 /*
-* 2.菜单(继承菜单组件类)——组合
+* 2.菜单(继承菜单组件类)
 */
 type Menu struct {
 	BaseMenuComponent
 
-	iterator    Iterator    //迭代器
 	menuGather  *MenuGather //菜单集合
 	name        string      //菜单项名
 	description string      //菜单项描述
@@ -171,7 +161,7 @@ type Menu struct {
 
 func NewMenu(name, description string) MenuComponent {
 	this := new(Menu)
-	this.iterator = nil
+
 	this.menuGather = NewMenuGather()
 	this.name = name
 	this.description = description
@@ -219,8 +209,5 @@ func (this *Menu) Print() {
 
 //实现MenuComponent接口的CreateIterator方法
 func (this *Menu) CreateIterator() Iterator {
-	if this.iterator == nil {
-		this.iterator = NewCompositeIterator(this.menuGather.Iterator())
-	}
-	return this.iterator
+	return NewCompositeIterator(this.menuGather.Iterator())
 }

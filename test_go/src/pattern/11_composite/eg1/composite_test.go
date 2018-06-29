@@ -5,18 +5,12 @@ import (
 )
 
 func TestAll(t *testing.T) {
-	var pancakeHouseMenu MenuComponent = NewMenu("PANCAKE HOUSE MENU", "Breakfast")
-	var dinerMenu MenuComponent = NewMenu("DINER MENU", "Lunch")
-	var cafeMenu MenuComponent = NewMenu("CAFE MENU", "Dinner")
-	var dessertMenu MenuComponent = NewMenu("DESSERT MENU", "Dessert of course!")
-	var coffeeMenu MenuComponent = NewMenu("COFFEE MENU", "Stuff to go with your afternoon coffee")
 
+	//总菜单
 	var allMenus MenuComponent = NewMenu("ALL MENUS", "All menus combined")
 
-	allMenus.Add(pancakeHouseMenu)
-	allMenus.Add(dinerMenu)
-	allMenus.Add(cafeMenu)
-
+	//煎饼屋菜单
+	var pancakeHouseMenu MenuComponent = NewMenu("PANCAKE HOUSE MENU", "Breakfast")
 	pancakeHouseMenu.Add(NewMenuItem(
 		"K&B's Pancake Breakfast",
 		"Pancakes with scrambled eggs, and toast",
@@ -37,7 +31,11 @@ func TestAll(t *testing.T) {
 		"Waffles, with your choice of blueberries or strawberries",
 		true,
 		3.59))
+	allMenus.Add(pancakeHouseMenu)
 
+
+	//晚餐菜单
+	var dinerMenu MenuComponent = NewMenu("DINER MENU", "Lunch")
 	dinerMenu.Add(NewMenuItem(
 		"Vegetarian BLT",
 		"(Fakin') Bacon with lettuce & tomato on whole wheat",
@@ -69,9 +67,11 @@ func TestAll(t *testing.T) {
 		"Spaghetti with Marinara Sauce, and a slice of sourdough bread",
 		true,
 		3.89))
+	allMenus.Add(dinerMenu)
 
-	dinerMenu.Add(dessertMenu)
 
+	//甜点菜单
+	var dessertMenu MenuComponent = NewMenu("DESSERT MENU", "Dessert of course!")
 	dessertMenu.Add(NewMenuItem(
 		"Apple Pie",
 		"Apple pie with a flakey crust, topped with vanilla icecream",
@@ -88,7 +88,11 @@ func TestAll(t *testing.T) {
 		"A scoop of raspberry and a scoop of lime",
 		true,
 		1.89))
+	dinerMenu.Add(dessertMenu)
 
+
+	//咖啡馆菜单
+	var cafeMenu MenuComponent = NewMenu("CAFE MENU", "Dinner")
 	cafeMenu.Add(NewMenuItem(
 		"Veggie Burger and Air Fries",
 		"Veggie burger on a whole wheat bun, lettuce, tomato, and fries",
@@ -104,9 +108,11 @@ func TestAll(t *testing.T) {
 		"A large burrito, with whole pinto beans, salsa, guacamole",
 		true,
 		4.29))
+	allMenus.Add(cafeMenu)
 
-	cafeMenu.Add(coffeeMenu)
 
+	//咖啡菜单
+	var coffeeMenu MenuComponent = NewMenu("COFFEE MENU", "Stuff to go with your afternoon coffee")
 	coffeeMenu.Add(NewMenuItem(
 		"Coffee Cake",
 		"Crumbly cake topped with cinnamon and walnuts",
@@ -122,8 +128,8 @@ func TestAll(t *testing.T) {
 		"Three almond or hazelnut biscotti cookies",
 		true,
 		0.89))
+	cafeMenu.Add(coffeeMenu)
 
-	var waitress *Waitress = NewWaitress(allMenus)
-
-	waitress.PrintMenu()
+	//服务员打印所有菜单
+	NewWaitress(allMenus).PrintMenu()
 }

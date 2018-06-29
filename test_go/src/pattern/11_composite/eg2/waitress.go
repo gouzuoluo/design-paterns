@@ -16,30 +16,32 @@ func NewWaitress(allMenus MenuComponent) *Waitress {
 }
 
 //打印菜单
-func (this *Waitress)PrintMenu() {
+func (this *Waitress) PrintMenu() {
 	this.allMenus.Print()
 }
 
 //打印素菜单(使用迭代器)
-func (this *Waitress)PrintVegetarianMenu() {
+func (this *Waitress) PrintVegetarianMenu() {
 	var iterator Iterator = this.allMenus.CreateIterator()
-	fmt.Println("\nVEGETARIAN MENU\n----")
+	fmt.Println("\n-------------\n打印素菜单\n-------------")
 
 	for iterator.HasNext() {
 		var menuComponent MenuComponent = iterator.Next()
-		this.Try(func() {
-			menuComponent.Print()
-			if menuComponent.IsVegetarian() {
-				menuComponent.Print()
-			}
-		}, func(arg interface{}) {
-			//只是捕获异常，什么也不干
-		})
+
+		this.Try(
+			func() {
+				if menuComponent.IsVegetarian() {
+					menuComponent.Print()
+				}
+			},
+			func(arg interface{}) {
+				//只是捕获异常，什么也不干
+			})
 	}
 }
 
 //go实现类似try...catch...的异常处理机制
-func (_ *Waitress)Try(fun func(), handler func(interface{})) {
+func (*Waitress) Try(fun func(), handler func(interface{})) {
 	defer func() {
 		if ex := recover(); ex != nil {
 			handler(ex)

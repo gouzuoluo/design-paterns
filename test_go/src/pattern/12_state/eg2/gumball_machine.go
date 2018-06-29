@@ -16,8 +16,8 @@ type GumballMachine struct {
 	soldState       State //售卖状态
 	winnerState     State //大赢家状态
 
-	state           State //当前的状态
-	count           int   //剩余的糖果数量
+	curState State //当前的状态
+	count    int   //剩余的糖果数量
 }
 
 func NewGumballMachine(numberGumballs int) *GumballMachine {
@@ -28,93 +28,93 @@ func NewGumballMachine(numberGumballs int) *GumballMachine {
 	this.soldState = NewSoldState(this)
 	this.winnerState = NewWinnerState(this)
 
-	this.state = this.soldOutState
+	this.curState = this.soldOutState
 	this.count = numberGumballs
 	if this.count > 0 {
-		this.state = this.noQuarterState
+		this.curState = this.noQuarterState
 	}
 	return this
 }
 
 //设置当前的状态
-func (this *GumballMachine)SetState(state State) {
-	this.state = state
+func (this *GumballMachine) SetState(state State) {
+	this.curState = state
 }
 
 //获取当前的状态
-func (this *GumballMachine)GetState() State {
-	return this.state
+func (this *GumballMachine) GetState() State {
+	return this.curState
 }
 
 /*----------------------状态------------------------------*/
 //获取售罄状态
-func (this *GumballMachine)GetSoldOutState() State {
+func (this *GumballMachine) GetSoldOutState() State {
 	return this.soldOutState
 }
 
 //获取没有25美分的状态
-func (this *GumballMachine)GetNoQuarterState() State {
+func (this *GumballMachine) GetNoQuarterState() State {
 	return this.noQuarterState
 }
 
 //获取有25美分的状态
-func (this *GumballMachine)GetHasQuarterState() State {
+func (this *GumballMachine) GetHasQuarterState() State {
 	return this.hasQuarterState
 }
 
 //获取售卖状态
-func (this *GumballMachine)GetSoldState() State {
+func (this *GumballMachine) GetSoldState() State {
 	return this.soldState
 }
 
 //获取大赢家状态
-func (this *GumballMachine)GetWinnerState() State {
+func (this *GumballMachine) GetWinnerState() State {
 	return this.hasQuarterState
 }
 
 /*--------------------------操作窗口方法-----------------------*/
 
 //插入25美分
-func (this *GumballMachine)InsertQuarter() {
-	this.state.InsertQuarter()
+func (this *GumballMachine) InsertQuarter() {
+	this.curState.InsertQuarter()
 }
 
 //退回25美分
-func (this *GumballMachine)EjectQuarter() {
-	this.state.EjectQuarter()
+func (this *GumballMachine) EjectQuarter() {
+	this.curState.EjectQuarter()
 }
 
 //转动曲柄
-func (this *GumballMachine)TurnCrank() {
+func (this *GumballMachine) TurnCrank() {
 	//设计技巧：当状态转换是固定的时候（即，一个状态后必定是另外一个状态），就适合放在Context中。
 	// 当状态转换是更动态的时候，通常就会放在状态类中。将状态转换放在状态类中的缺点是：状态类之间产生了依赖。
-	this.state.TurnCrank()
-	this.state.Dispense()
+	this.curState.TurnCrank()
+	this.curState.Dispense()
 }
 
 //新增加糖
-func (this *GumballMachine)Refill(count int) {
+func (this *GumballMachine) Refill(count int) {
 	this.count += count
 	fmt.Printf("The gumball machine was just refilled; it's new count is: %d\n", this.count)
-	this.state.Refill()
+	this.curState.Refill()
 }
 
 /*-------------------------其他方法---------------------------*/
 
 //获取剩余的糖数量
-func (this *GumballMachine)GetCount() int {
+func (this *GumballMachine) GetCount() int {
 	return this.count
 }
 
 //释放糖果
-func (this *GumballMachine)ReleaseBall() {
-	fmt.Println("A gumball comes rolling out the slot...")//一颗糖滚出来到一个槽里
+func (this *GumballMachine) ReleaseBall() {
+	fmt.Println("A gumball comes rolling out the slot...") //一颗糖滚出来到一个槽里
 	if this.count != 0 {
 		this.count -= 1
 	}
 }
 
-func (this *GumballMachine)String() string {
+func (this *GumballMachine) String() string {
 	buf := bytes.NewBufferString("\nMighty Gumball, Inc.")
 	buf.WriteString("\nGo-enabled Standing Gumball Model #2004")
 	buf.WriteString("\nInventory: " + fmt.Sprintf("%d", this.count) + " gumball")
@@ -122,7 +122,6 @@ func (this *GumballMachine)String() string {
 		buf.WriteString("s")
 	}
 	buf.WriteString("\n")
-	buf.WriteString("Machine is " + this.state.String() + "\n")
+	buf.WriteString("Machine is " + this.curState.String() + "\n")
 	return buf.String()
 }
-

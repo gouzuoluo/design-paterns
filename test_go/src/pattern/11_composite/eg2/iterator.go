@@ -31,7 +31,7 @@ func (this *NilIterator) HasNext() bool {
 }
 
 /*
-* 2.菜单集合迭代器
+* 2.菜单组件集合迭代器
 */
 type MenuGatherIterator struct {
 	menuComponents []MenuComponent
@@ -63,11 +63,13 @@ func (this *MenuGatherIterator) HasNext() bool {
 	}
 }
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /*
-* 3.组件迭代器
+* 3.组件迭代器（组合的迭代器）
 */
 type CompositeIterator struct {
-	stack *stack.Stack //Element是MenuGatherIterator类型(即是Iterator)
+	stack *stack.Stack //Element是Iterator接口类型
 }
 
 func NewCompositeIterator(iterator Iterator) Iterator {
