@@ -46,7 +46,7 @@ func (this *GumballMachine) GetState() State {
 	return this.curState
 }
 
-/*----------------------状态------------------------------*/
+/*----------------------提供获取各个状态的方法------------------------------*/
 //获取售罄状态
 func (this *GumballMachine) GetSoldOutState() State {
 	return this.soldOutState
@@ -72,7 +72,7 @@ func (this *GumballMachine) GetWinnerState() State {
 	return this.hasQuarterState
 }
 
-/*--------------------------操作窗口方法-----------------------*/
+/*--------------------------操作窗口方法（将动作委托到状态类）-----------------------*/
 
 //插入25美分
 func (this *GumballMachine) InsertQuarter() {
